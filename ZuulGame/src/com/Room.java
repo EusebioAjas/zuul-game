@@ -10,5 +10,20 @@ package com;
  * @author Alexis
  */
 public class Room {
+    public String description;
+    public Room northExit;
+    public Room southExit;
+    public Room eastExit;
+    public Room westExit;
+    
+    public Room(String description) 
+    {
+        this.description = description;
+    }
+ 
+    public String getDescription()
+    {
+        return description;
+    }
     
 }

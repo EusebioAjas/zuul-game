@@ -11,4 +11,8 @@ public class Game {
   public Game() {
     parser = new Parser();
   }
+
+  private void goRoom(Command command) {
+
+  }
 }

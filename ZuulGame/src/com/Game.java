@@ -11,4 +11,8 @@ public class Game {
   public Game() {
     parser = new Parser();
   }
+  
+  public void printHelp(){
+    
+  }
 }

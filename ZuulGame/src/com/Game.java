@@ -97,5 +97,10 @@ public class Game {
       System.out.println();
     }
   }
+  
+  private boolean quit(Command command)
+  {
+      
+  }
 
 }

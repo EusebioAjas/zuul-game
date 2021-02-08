@@ -97,5 +97,17 @@ public class Game {
       System.out.println();
     }
   }
+  
+  private boolean quit(Command command)
+  {
+      boolean finished =false;
+      if(command.hasDirectionWord()){
+            System.out.println("Quit what?");
+            return finished;
+      }else{
+        finished = true;
+      }
+      return finished;
+  }
 
 }

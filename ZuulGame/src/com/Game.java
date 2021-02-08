@@ -11,6 +11,14 @@ public class Game {
   public Game() {
     parser = new Parser();
   }
+  
+  private void printHelp(){
+    System.out.println("You are lost. YOu are alone. You wander");
+    System.out.println("around at the university.");
+    System.out.println();
+    System.out.println("Your command words are:");
+    System.out.println("   go quit help");
+  }
 
   private void goRoom(Command command) 
   {
@@ -64,6 +72,5 @@ public class Game {
       
       System.out.println();
     }
-
   }
 }

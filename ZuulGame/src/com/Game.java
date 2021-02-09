@@ -145,12 +145,14 @@ public class Game {
     }
 
     private boolean quit(Command command) {
-	boolean finished = false;
 	if (command.hasDirectionWord()) {
-	    System.out.println("Quit what?");
-	    return finished;
-	} else
-	    finished = true;
-	return finished;
+	    sendWarning();
+	    return false;
+	} 
+	return true;
+    }
+    
+    private void sendWarning(){
+	System.out.println("Quit what?");
     }
 }

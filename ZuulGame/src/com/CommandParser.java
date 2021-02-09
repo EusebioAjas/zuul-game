@@ -1,5 +1,8 @@
 package com;
 
+import com.commands.Command;
+import com.commands.CommandFactory;
+import com.commands.NullCommand;
 import java.util.Scanner;
 
 /**
@@ -8,32 +11,37 @@ import java.util.Scanner;
  */
 public class CommandParser {
 
-    private final CommandWords commands;
-    private final Scanner reader;
+    private final Scanner scanner;
 
     public CommandParser() {
-	commands = new CommandWords();
-	reader = new Scanner(System.in);
+        scanner = new Scanner(System.in);
     }
 
     public Command getCommand() {
-	String phrase;
-	String commandWord = null;
-	String directionWord = null;
+        String[] words = readWords();
+        String commandWord = getCommandWord(words);
+        String directionWord = getDirectionWord(words);
+        return CommandFactory.createCommand(commandWord, directionWord);
+    }
 
-	System.out.print("> ");
-	phrase = reader.nextLine();
-	Scanner tokenizer = new Scanner(phrase);
-	if (tokenizer.hasNext()) {
-	    commandWord = tokenizer.next();
-	    if (tokenizer.hasNext())
-		directionWord = tokenizer.next();
-	}
+    private String getCommandWord(String[] words) {
+        if (words.length > 0)
+            return words[0];
 
-	if (commands.isValidCommand(commandWord))
-	    return new Command(commandWord, directionWord);
-	else
-	    return new Command(null, directionWord);
+        return NullCommand.INVALID_COMMAND_WORD;
+    }
+
+    private String getDirectionWord(String[] words) {
+        if (words.length > 1)
+            return words[1];
+
+        return NullCommand.INVALID_DIRECTION_WORD;
+    }
+
+    private String[] readWords() {
+        String phrase = "";
+        phrase = scanner.nextLine();
+        return phrase.split("\\s+");
     }
 
 }

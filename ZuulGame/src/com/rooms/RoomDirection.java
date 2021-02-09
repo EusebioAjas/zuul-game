@@ -2,6 +2,7 @@
 
 package com.rooms;
 
+import com.exceptions.InvalidDirectionException;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -19,7 +20,7 @@ public enum RoomDirection {
 		.findAny();
 
 	if (!roomDirectionMaybe.isPresent()) 
-            System.out.println("Invalid direction " + aString);    
+            throw new InvalidDirectionException(aString);     
             
 	return roomDirectionMaybe.get();
     }

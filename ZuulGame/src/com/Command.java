@@ -5,13 +5,13 @@ package com;
  * @author hikingcarrot7
  */
 public class Command {
-
+    
     private final String commandWord;
     private final String directionWord;
 
     public Command(String commandWord, String directionWord) {
 	this.commandWord = commandWord;
-	this.directionWord = directionWord; 
+	this.directionWord = directionWord;
     }
 
     public String getCommandWord() {
@@ -29,5 +29,4 @@ public class Command {
     public boolean hasDirectionWord() {
 	return directionWord != null;
     }
-
 }

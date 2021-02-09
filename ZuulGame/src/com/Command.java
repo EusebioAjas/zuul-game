@@ -29,5 +29,4 @@ public class Command {
     public boolean hasDirectionWord() {
 	return directionWord != null;
     }
-
 }

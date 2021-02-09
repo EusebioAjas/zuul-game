@@ -8,9 +8,10 @@ public class CommandWords {
     }
 
     public boolean isValidCommand(String aString) {
-       boolean flag = false;
+	boolean flag = false;
 	for (int i = 0; i < VALID_COMMANDS.length; i++)
-	    if (VALID_COMMANDS[i].equals(aString)) flag = true;
+	    if (VALID_COMMANDS[i].equals(aString))
+		flag = true;
 	return flag;
     }
 }

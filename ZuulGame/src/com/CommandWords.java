@@ -2,15 +2,15 @@ package com;
 
 public class CommandWords {
 
-    private static final String[] validCommands = {"go", "quit", "help"};
+    private static final String[] VALID_COMMANDS = {"go", "quit", "help"};
 
     public CommandWords() {
     }
 
-    public boolean isCommand(String str) {
+    public boolean isValidCommand(String aString) {
        boolean flag = false;
-	for (int i = 0; i < validCommands.length; i++)
-	    if (validCommands[i].equals(str)) flag = true;
+	for (int i = 0; i < VALID_COMMANDS.length; i++)
+	    if (VALID_COMMANDS[i].equals(aString)) flag = true;
 	return flag;
     }
 }

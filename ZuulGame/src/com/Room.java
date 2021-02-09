@@ -6,14 +6,14 @@ package com;
  */
 public class Room {
 
-    public String description;
+    public String roomDescription;
     public Room northExit;
     public Room southExit;
     public Room eastExit;
     public Room westExit;
 
     public Room(String description) {
-	this.description = description;
+	this.roomDescription = description;
     }
 
     public void setExits(Room north, Room east, Room south, Room west) {
@@ -49,8 +49,8 @@ public class Room {
 
     }
 
-    public String getDescription() {
-	return description;
+    public String getRoomDescription() {
+	return roomDescription;
     }
 
 }

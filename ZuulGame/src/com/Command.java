@@ -11,7 +11,7 @@ public class Command {
 
     public Command(String commandWord, String directionWord) {
 	this.commandWord = commandWord;
-	this.directionWord = directionWord;
+	this.directionWord = directionWord; 
     }
 
     public String getCommandWord() {

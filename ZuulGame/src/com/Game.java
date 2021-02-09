@@ -1,5 +1,10 @@
 package com;
 
+import com.exceptions.InvalidDirectionException;
+import com.rooms.Room;
+import com.rooms.RoomDirection;
+import com.rooms.RoomExitsBuilder;
+
 /**
  *
  * @author Eusebio Ajas
@@ -10,149 +15,130 @@ public class Game {
     private Room currentRoom;
 
     public Game() {
-	commandParser = new CommandParser();
-	createRooms();
+        commandParser = new CommandParser();
+        createRooms();
     }
 
     private void createRooms() {
-	Room outside, theatre, pub, lab, office;
+        Room outside, theatre, pub, lab, office;
 
-	outside = new Room("outside the main entrance of the university");
-	theatre = new Room("in a lecture theatre");
-	pub = new Room("in the campus pub");
-	lab = new Room("in a computing lab");
-	office = new Room("in the computing admin office");
+        outside = new Room("outside the main entrance of the university");
+        theatre = new Room("in a lecture theatre");
+        pub = new Room("in the campus pub");
+        lab = new Room("in a computing lab");
+        office = new Room("in the computing admin office");
 
-	outside.setExits(null, theatre, lab, pub);
-	theatre.setExits(null, null, null, outside);
-	pub.setExits(null, outside, null, null);
-	lab.setExits(outside, office, null, null);
-	office.setExits(null, null, null, lab);
+        outside.setExits(new RoomExitsBuilder()
+                .setSouthRoom(lab)
+                .setEastRoom(theatre)
+                .setWestRoom(pub)
+                .build());
 
-	currentRoom = outside;
+        theatre.setExits(new RoomExitsBuilder()
+                .setEastRoom(outside)
+                .build());
+
+        pub.setExits(new RoomExitsBuilder()
+                .setEastRoom(outside)
+                .build());
+
+        lab.setExits(new RoomExitsBuilder()
+                .setNorthRoom(outside)
+                .setEastRoom(office)
+                .build());
+
+        office.setExits(new RoomExitsBuilder()
+                .setWestRoom(lab)
+                .build());
+
+        currentRoom = outside;
     }
 
     public void play() {
-	printWelcome();
-	Command command;
+        printWelcome();
+        Command command;
 
-	do
-	    command = commandParser.getCommand();
-	while (!processCommand(command));
+        do
+            command = commandParser.getCommand();
+        while (!processCommand(command));
 
-	System.out.println("Thank you for playing. Good bye.");
+        System.out.println("Thank you for playing. Good bye.");
     }
 
     private void printWelcome() {
-	System.out.println();
-	System.out.println("Welcome to the World of Zuul!");
-	System.out.println("World of Zuul is a new, incredibly boring adventure game.");
-	System.out.println("Type 'help' if you need help.");
-	System.out.println();
-	System.out.println("You are " + currentRoom.getRoomDescription());
-	System.out.print("Exits: ");
-
-	if (currentRoom.northExit != null)
-	    System.out.print("north ");
-	
-	if (currentRoom.eastExit != null)
-	    System.out.print("east ");
-	
-	if (currentRoom.southExit != null)
-	    System.out.print("south ");
-	
-	if (currentRoom.westExit != null)
-	    System.out.print("west ");
-	
-	System.out.println();
+        System.out.println();
+        System.out.println("Welcome to the World of Zuul!");
+        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("Type 'help' if you need help.");
+        System.out.println();
+        currentRoom.printExits();
+        System.out.println();
     }
 
     private void printHelp() {
-	System.out.println("You are lost. You are alone. You wander");
-	System.out.println("around at the university.");
-	System.out.println();
-	System.out.println("Your command words are:");
-	System.out.println("   go quit help");
+        System.out.println("You are lost. You are alone. You wander");
+        System.out.println("around at the university.");
+        System.out.println();
+        System.out.println("Your command words are:");
+        System.out.println("   go quit help");
     }
 
     private boolean processCommand(Command command) {
-	boolean wantToQuit = false;
+        boolean wantToQuit = false;
 
-	if (command.isUnknown()) {
-	    System.out.println("I don't know what you mean...");
-	    return false;
-	}
+        if (command.isUnknown()) {
+            System.out.println("I don't know what you mean...");
+            return false;
+        }
 
-	String commandWord = command.getCommandWord();
-	switch (commandWord) {
-	    case "help":
-		printHelp();
-		break;
-	    case "go":
-		goRoom(command);
-		break;
-	    case "quit":
-		wantToQuit = quit(command);
-		break;
-	    default:
-		break;
-	}
+        String commandWord = command.getCommandWord();
+        switch (commandWord) {
+            case "help":
+                printHelp();
+                break;
+            case "go":
+                goRoom(command);
+                break;
+            case "quit":
+                wantToQuit = quit(command);
+                break;
+            default:
+                break;
+        }
 
-	return wantToQuit;
+        return wantToQuit;
     }
 
     private void goRoom(Command command) {
-	if (!command.hasDirectionWord()) {
-	    System.out.println("Go where?");
-	    return;
-	}
+        if (!command.hasDirectionWord()) {
+            System.out.println("Go where?");
+            return;
+        }
 
-	String direction = command.getDirectionWord();
-	Room nextRoom = null;
-	if (direction.equals("east"))
-	    nextRoom = currentRoom.eastExit;
+        try {
+            String direction = command.getDirectionWord();
+            Room nextRoom = currentRoom.determineNextRoom(RoomDirection.getDirection(direction));
 
-	if (direction.equals("west"))
-	    nextRoom = currentRoom.westExit;
+            if (!nextRoom.isNullRoom()) {
+                currentRoom = nextRoom;
+                currentRoom.printExits();
+            } else
+                System.out.println("There is no door!");
 
-	if (direction.equals("north"))
-	    nextRoom = currentRoom.northExit;
-
-	if (direction.equals("south"))
-	    nextRoom = currentRoom.southExit;
-
-	if (nextRoom == null)
-	    System.out.println("There is no door");
-	else {
-	    currentRoom = nextRoom;
-	    System.out.println("You are " + currentRoom.getRoomDescription());
-	    System.out.println("Exits: ");
-
-	    if (currentRoom.northExit != null)
-		System.out.println("north ");
-
-	    if (currentRoom.eastExit != null)
-		System.out.println("east ");
-
-	    if (currentRoom.southExit != null)
-		System.out.println("south ");
-
-	    if (currentRoom.westExit != null)
-		System.out.println("west ");
-
-	    System.out.println();
-	}
+        } catch (InvalidDirectionException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private boolean quit(Command command) {
-	if (command.hasDirectionWord()) {
-	    sendWarning();
-	    return false;
-	} 
-	return true;
+        if (command.hasDirectionWord()) {
+            sendWarning();
+            return false;
+        }
+        return true;
     }
-    
-    private void sendWarning(){
-	System.out.println("Quit what?");
+
+    private void sendWarning() {
+        System.out.println("Quit what?");
     }
 }

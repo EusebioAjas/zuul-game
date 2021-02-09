@@ -6,11 +6,11 @@ package com;
  */
 public class Game {
 
-    private final Parser parser;
+    private final CommandParser parser;
     private Room currentRoom;
 
     public Game() {
-	parser = new Parser();
+	parser = new CommandParser();
 	createRooms();
     }
 
@@ -48,7 +48,7 @@ public class Game {
         System.out.println("World of Zuul is a new, incredibly boring adventure game.");
         System.out.println("Type 'help' if you need help.");
         System.out.println();
-        System.out.println("You are " + currentRoom.getDescription());
+        System.out.println("You are " + currentRoom.getRoomDescription());
         System.out.print("Exits: ");
         if(currentRoom.northExit != null) {
             System.out.print("north ");
@@ -124,7 +124,7 @@ public class Game {
     } else 
     {
       currentRoom = nextRoom;
-      System.out.println("You are " + currentRoom.getDescription());
+      System.out.println("You are " + currentRoom.getRoomDescription());
       System.out.println("Exits: ");
       if (currentRoom.northExit != null) 
       {

@@ -24,15 +24,17 @@ public class CommandParser {
 	System.out.print("> ");
 
 	inputLine = reader.nextLine();
-
 	Scanner tokenizer = new Scanner(inputLine);
 	if (tokenizer.hasNext()) {
 	    commandWord = tokenizer.next();
-	    if (tokenizer.hasNext()) directionWord = tokenizer.next();
+	    if (tokenizer.hasNext())
+		directionWord = tokenizer.next();
 	}
 
-	if (commandWords.isValidCommand(commandWord)) return new Command(commandWord, directionWord);
-	else return new Command(null, directionWord);
+	if (commandWords.isValidCommand(commandWord))
+	    return new Command(commandWord, directionWord);
+	else
+	    return new Command(null, directionWord);
     }
 
 }

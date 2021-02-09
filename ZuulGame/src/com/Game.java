@@ -91,7 +91,10 @@ public class Game {
             System.out.println("Go where?");
             return;
         }
-
+        getCommandDirection(command);
+    }
+    
+    public void getCommandDirection(Command command) {
         try {
             String direction = command.getDirectionWord();
             Room nextRoom = currentRoom.determineNextRoom(RoomDirection.getDirection(direction));
@@ -99,8 +102,9 @@ public class Game {
             if (!nextRoom.isNullRoom()) {
                 currentRoom = nextRoom;
                 currentRoom.printExits();
-            } else
+            } else {
                 System.out.println("There is no door!");
+            }
 
         } catch (InvalidDirectionException e) {
             System.out.println(e.getMessage());

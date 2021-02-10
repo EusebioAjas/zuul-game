@@ -15,7 +15,7 @@ public class QuitCommand extends Command {
     }
 
     @Override public void execute(Game game) {
-        game.quitGame(this);
+        game.setGameOver(true);
     }
 
 }

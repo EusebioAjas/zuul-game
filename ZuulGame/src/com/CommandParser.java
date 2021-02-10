@@ -39,6 +39,7 @@ public class CommandParser {
     }
 
     private String[] readWords() {
+	System.out.print("> ");
         String phrase = "";
         phrase = scanner.nextLine();
         return phrase.split("\\s+");
